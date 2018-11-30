@@ -17,6 +17,7 @@ class K_Means:
 		for i in range(self.k):
 			self.centroids[i] = data[i]
 		con = 1
+
 		#begin iterations
 		for i in range(self.max_iterations):
 			self.classes = {}
@@ -48,28 +49,38 @@ class K_Means:
 			if isOptimal:
 				break
 
+	def get_labels(self):
+		self.df = []
+
+
 def main():
-	
+	attr = ['Area','Perimeter','Compactness','Length_of_kernel','Width_of_kernel','Asymmetry_coef','Length_kernel_groove']
 	df = pd.read_csv("seeds.csv",sep='\t')
-	df = df[['Area','Perimeter','Compactness','Length_of_kernel','Width_of_kernel','Asymmetry_coef','Length_kernel_groove']]
-	dataset = df.astype(float).values.tolist()
-	X = df.values #returns a numpy array
+	df1 = df[['Area','Perimeter','Compactness','Length_of_kernel','Width_of_kernel','Asymmetry_coef','Length_kernel_groove']]
+	X = df1.values #returns a numpy array
 	
 	km = K_Means(3)
 	km.fit(X)
-
-	print(km.centroids)
-	colors = 10*["r", "g", "c", "b", "k"]
-
-	# for centroid in km.centroids:
-	# 	plt.scatter(km.centroids[centroid][0], km.centroids[centroid][1], s = 130, marker = "x")
+	print(df)
+	# colors = ["r", "g", "b"]
 	# con = 1
-	# for classification in km.classes:
-	# 	color = colors[classification]
-	# 	for features in km.classes[classification]:
-	# 		plt.scatter(features[0], features[1], color = color,s = 5)
-	
-	# plt.show()
+
+	# for a0 in df1:
+	# 	for a1 in df1:
+	# 		if a0 < a1 :
+	# 			plt.cla()
+	# 			plt.xlabel(a0)
+	# 			plt.ylabel(a1)
+	# 			# for centroid in km.centroids:
+	# 			# 	plt.scatter(km.centroids[centroid][attr.index(a0)], km.centroids[centroid][attr.index(a1)], s = 130, marker = "o")
+	# 			for classification in km.classes:
+	# 				color = colors[classification]
+	# 				for features in km.classes[classification]:
+	# 					plt.scatter(features[attr.index(a0)], features[attr.index(a1)], color = color,s = 5)
+				
+	# 			plt.savefig('./pict'+str(con)+'cl.png')
+	# 			con += 1
+
 
 if __name__ == "__main__":
 	main()
