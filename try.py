@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import style
 import pandas as pd 
+from random import randint
 
 class K_Means:
 	def __init__(self, k =3, tolerance = 0.0001, max_iterations = 500):
@@ -15,9 +16,11 @@ class K_Means:
 
 		#initialize the centroids, the first 'k' elements in the dataset will be our initial centroids
 		for i in range(self.k):
-			self.centroids[i] = data[i]
+			idx = randint(0,209)
+			self.centroids[i] = data[idx]
 		con = 1
 
+		print(self.centroids)
 		#begin iterations
 		for i in range(self.max_iterations):
 			self.classes = {}
