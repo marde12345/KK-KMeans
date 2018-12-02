@@ -49,8 +49,37 @@ class K_Means:
 			if isOptimal:
 				break
 
-	def get_labels(self):
-		self.df = []
+	def accuracy(self, cluster):
+		acc = 0
+		for a in range(self.k):
+			tmp = 0
+			for b in range(self.k):
+				flag = 0
+				for c in cluster[a]:
+					for d in self.classes[b]:
+						if np.array_equiv(c,d) :
+							flag += 1
+							break
+				tmp = max(flag,tmp)
+			acc += tmp
+		acc /= 210
+		return acc
+
+
+def get_clus(cluster):
+	clustered = {}
+	k = np.unique(cluster['Class'])
+	
+	for i in range((len(k))):
+		clustered[i] = []
+	
+	cluster = cluster.values
+	for a in range(len(cluster)):
+		index = int(cluster[a,7:])-1
+		data = np.delete(cluster[a,:],7)
+		clustered[index].append(data)
+	
+	return clustered
 
 
 def main():
@@ -59,9 +88,13 @@ def main():
 	df1 = df[['Area','Perimeter','Compactness','Length_of_kernel','Width_of_kernel','Asymmetry_coef','Length_kernel_groove']]
 	X = df1.values #returns a numpy array
 	
+	clas = get_clus(df)
+
 	km = K_Means(3)
 	km.fit(X)
-	print(df)
+
+	print(km.accuracy(clas))
+	#print(df)
 	# colors = ["r", "g", "b"]
 	# con = 1
 
